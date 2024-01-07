@@ -27,10 +27,20 @@ function create_image(imgElement, width, height, colorFunction) {
     imgElement.src = canvas.toDataURL();
 }
 
+function generate_dot_plot(text) {
+    const len = text.length;
+    const white = "rgb(255,255,255)";
+    const black = "rgb(0,0,0)";
+    create_image(output_image(), len, len, (x, y) => {
+        if (text[x] == text[y]) {
+            return black;
+        } else {
+            return white;
+        }
+    });
+}
+
 input_button().addEventListener("click", (event) => {
     event.preventDefault();
-    console.log(source_text());
-    create_image(output_image(), 255, 255, (x, y) => {
-        return `rgb(${x}, ${y}, 127)`;
-    });
+    generate_dot_plot(source_text());
 })
