@@ -1,0 +1,12 @@
+{
+  "name": "dot-plot",
+  "version": "0.1.0",
+  "description": "shows similarity in text",
+  "main": "index.js",
+  "scripts": {
+    "serve": "python3 -m http.server --directory ./public",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "MIT"
+}
