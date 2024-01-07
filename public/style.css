@@ -1,0 +1,10 @@
+.top {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+}
+
+.top>.top-item {
+    flex-grow: 1;
+    width: 0;
+}
