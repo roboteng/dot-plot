@@ -42,5 +42,11 @@ function generate_dot_plot(text) {
 
 input_button().addEventListener("click", (event) => {
     event.preventDefault();
-    generate_dot_plot(source_text());
+
+    const source = source_text();
+    for (let node of document.getElementsByClassName("output")) {
+        node.textContent = source;
+    }
+
+    generate_dot_plot(source);
 })

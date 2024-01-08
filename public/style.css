@@ -8,3 +8,14 @@
     flex-grow: 1;
     width: 0;
 }
+
+#display {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+}
+
+#display>.output {
+    flex-grow: 1;
+    width: 0;
+}
