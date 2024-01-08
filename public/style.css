@@ -19,3 +19,7 @@
     flex-grow: 1;
     width: 0;
 }
+
+.output span {
+    background-color: blue;
+}

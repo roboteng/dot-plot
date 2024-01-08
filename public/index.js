@@ -50,3 +50,17 @@ input_button().addEventListener("click", (event) => {
 
     generate_dot_plot(source);
 })
+
+output_image().addEventListener("mousemove", (event) => {
+    const { width, height } = output_image();
+    const x = Math.floor(event.offsetX / width * source_text().length);
+    const y = Math.floor(event.offsetY / height * source_text().length);
+    let [left, right] = document.getElementsByClassName("output");
+
+    const left_content = source_text().slice(0, x) + "<span>" + source_text().slice(x, x + 1) + "</span>" + source_text().slice(x + 1)
+
+    const right_content = source_text().slice(0, y) + "<span>" + source_text().slice(y, y + 1) + "</span>" + source_text().slice(y + 1)
+
+    left.innerHTML = left_content;
+    right.innerHTML = right_content;
+});
