@@ -46,27 +46,55 @@ function highlight_selection(source, index, len = 1) {
         "</span>" + source.slice(index + len);
 }
 
-input_button().addEventListener("click", (event) => {
-    event.preventDefault();
 
-    const source = source_text();
-    for (let node of document.getElementsByClassName("output")) {
-        node.textContent = source;
+function make_index_map(source, ignore_symbols = []) {
+    let indexes = make_indexes(source);
+    return indexes.filter(({ char }) => {
+        return !ignore_symbols.includes(char)
+    })
+}
+
+function make_indexes(source) {
+    let indexes = [];
+    let index = 0;
+    for (let char of source) {
+        indexes.push({ char, index });
+        index++;
     }
+    return indexes;
+}
 
-    generate_dot_plot(source);
-})
+(() => {
+    let source;
+    let chars;
+    let index_map;
+    const chars_to_skip = [" ", "\n", ","];
 
-output_image().addEventListener("mousemove", (event) => {
-    let source = source_text()
-    const { width, height } = output_image();
-    const x = Math.floor(event.offsetX / width * source.length);
-    const y = Math.floor(event.offsetY / height * source.length);
-    let [left, right] = document.getElementsByClassName("output");
+    input_button().addEventListener("click", (event) => {
+        event.preventDefault();
 
-    left.innerHTML = highlight_selection(source, x);
-    right.innerHTML = highlight_selection(source, y);
-});
+        source = source_text();
+
+        for (let node of document.getElementsByClassName("output")) {
+            node.textContent = source;
+        }
+
+        index_map = make_index_map(source, chars_to_skip);
+        chars = Array.from(source).filter((a) => !chars_to_skip.includes(a)).join("");
+
+        generate_dot_plot(chars);
+    })
+
+    output_image().addEventListener("mousemove", (event) => {
+        const { width, height } = output_image();
+        const x = Math.floor(event.offsetX / width * chars.length);
+        const y = Math.floor(event.offsetY / height * chars.length);
+        let [left, right] = document.getElementsByClassName("output");
+
+        left.innerHTML = highlight_selection(source, index_map[x].index);
+        right.innerHTML = highlight_selection(source, index_map[y].index);
+    });
+})()
 
 if (window.location.origin.includes("localhost")) {
     function assert(expected, actual, message = "") {
