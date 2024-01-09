@@ -67,3 +67,12 @@ output_image().addEventListener("mousemove", (event) => {
     left.innerHTML = highlight_selection(source, x);
     right.innerHTML = highlight_selection(source, y);
 });
+
+if (window.location.origin.includes("localhost")) {
+    function assert(expected, actual, message = "") {
+        if (expected != actual) {
+            console.error(`Expected\n${expected}\nbut got\n${actual}\n${message}`);
+            console.trace();
+        }
+    }
+}
