@@ -40,6 +40,12 @@ function generate_dot_plot(text) {
     });
 }
 
+function highlight_selection(source, index, len = 1) {
+    return source.slice(0, index) +
+        "<span>" + source.slice(index, index + len) +
+        "</span>" + source.slice(index + len);
+}
+
 input_button().addEventListener("click", (event) => {
     event.preventDefault();
 
@@ -52,15 +58,12 @@ input_button().addEventListener("click", (event) => {
 })
 
 output_image().addEventListener("mousemove", (event) => {
+    let source = source_text()
     const { width, height } = output_image();
-    const x = Math.floor(event.offsetX / width * source_text().length);
-    const y = Math.floor(event.offsetY / height * source_text().length);
+    const x = Math.floor(event.offsetX / width * source.length);
+    const y = Math.floor(event.offsetY / height * source.length);
     let [left, right] = document.getElementsByClassName("output");
 
-    const left_content = source_text().slice(0, x) + "<span>" + source_text().slice(x, x + 1) + "</span>" + source_text().slice(x + 1)
-
-    const right_content = source_text().slice(0, y) + "<span>" + source_text().slice(y, y + 1) + "</span>" + source_text().slice(y + 1)
-
-    left.innerHTML = left_content;
-    right.innerHTML = right_content;
+    left.innerHTML = highlight_selection(source, x);
+    right.innerHTML = highlight_selection(source, y);
 });
