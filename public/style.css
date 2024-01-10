@@ -18,6 +18,7 @@
 #display>.output {
     flex-grow: 1;
     width: 0;
+    white-space: pre-wrap;
 }
 
 .output span {
