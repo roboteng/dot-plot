@@ -13,6 +13,7 @@ const output_image = find("output-image");
 const exclude_spaces = () => find("exclude-spaces")().checked;
 const exclude_newlines = () => find("exclude-newlines")().checked;
 const exclude_json = () => find("exclude-json")().checked;
+const ignore_case = () => find("ignore-case")().checked;
 
 function create_image(imgElement, width, height, colorFunction) {
     if (!width && !height) return;
@@ -72,7 +73,7 @@ function make_indexes(source) {
     let source;
     let chars;
     let index_map;
-    let chars_to_skip = [];
+    let chars_to_skip;
 
     input_button().addEventListener("click", (event) => {
         event.preventDefault();
@@ -96,6 +97,9 @@ function make_indexes(source) {
 
         index_map = make_index_map(source, chars_to_skip);
         chars = Array.from(source).filter((a) => !chars_to_skip.includes(a)).join("");
+
+        if (ignore_case())
+            chars = chars.toLowerCase();
 
         if (chars)
             generate_dot_plot(chars);
