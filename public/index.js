@@ -1,14 +1,14 @@
-function input_button() {
-    return document.getElementById("input-button");
+function find(id) {
+    return () => {
+        return document.getElementById(id);
+    }
 }
 
-function source_text() {
-    return document.getElementById("source-text").value;
-}
+const input_button = find("input-button");
 
-function output_image() {
-    return document.getElementById("output-image");
-}
+const source_text = () => find("source-text")().value;
+
+const output_image = find("output-image");
 
 function create_image(imgElement, width, height, colorFunction) {
     const canvas = document.createElement('canvas');
