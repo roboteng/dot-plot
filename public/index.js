@@ -15,6 +15,7 @@ const exclude_newlines = () => find("exclude-newlines")().checked;
 const exclude_json = () => find("exclude-json")().checked;
 
 function create_image(imgElement, width, height, colorFunction) {
+    if (!width && !height) return;
     const canvas = document.createElement('canvas');
     canvas.width = width;
     canvas.height = height;
@@ -82,24 +83,26 @@ function make_indexes(source) {
             node.textContent = source;
         }
 
+        chars_to_skip = [];
+
         if (exclude_spaces())
             chars_to_skip.push(" ", "\t");
 
         if (exclude_newlines())
             chars_to_skip.push("\n");
 
-        if (exclude_json()) {
-            const json_chars = ["{", "}", "[", "]", ",", ":"];
-            chars_to_skip.push(...json_chars);
-        }
+        if (exclude_json())
+            chars_to_skip.push("{", "}", "[", "]", ",", ":", "\"");
 
         index_map = make_index_map(source, chars_to_skip);
         chars = Array.from(source).filter((a) => !chars_to_skip.includes(a)).join("");
 
-        generate_dot_plot(chars);
+        if (chars)
+            generate_dot_plot(chars);
     })
 
     output_image().addEventListener("mousemove", (event) => {
+        if (!chars) return;
         const { width, height } = output_image();
         const x = Math.floor(event.offsetX / width * chars.length);
         const y = Math.floor(event.offsetY / height * chars.length);
