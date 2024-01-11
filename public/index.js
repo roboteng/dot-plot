@@ -10,6 +10,10 @@ const source_text = () => find("source-text")().value;
 
 const output_image = find("output-image");
 
+const exclude_spaces = () => find("exclude-spaces")().checked;
+const exclude_newlines = () => find("exclude-newlines")().checked;
+const exclude_json = () => find("exclude-json")().checked;
+
 function create_image(imgElement, width, height, colorFunction) {
     const canvas = document.createElement('canvas');
     canvas.width = width;
@@ -46,7 +50,6 @@ function highlight_selection(source, index, len = 1) {
         "</span>" + source.slice(index + len);
 }
 
-
 function make_index_map(source, ignore_symbols = []) {
     let indexes = make_indexes(source);
     return indexes.filter(({ char }) => {
@@ -68,7 +71,7 @@ function make_indexes(source) {
     let source;
     let chars;
     let index_map;
-    const chars_to_skip = [" ", "\n", ","];
+    let chars_to_skip = [];
 
     input_button().addEventListener("click", (event) => {
         event.preventDefault();
@@ -77,6 +80,17 @@ function make_indexes(source) {
 
         for (let node of document.getElementsByClassName("output")) {
             node.textContent = source;
+        }
+
+        if (exclude_spaces())
+            chars_to_skip.push(" ", "\t");
+
+        if (exclude_newlines())
+            chars_to_skip.push("\n");
+
+        if (exclude_json()) {
+            const json_chars = ["{", "}", "[", "]", ",", ":"];
+            chars_to_skip.push(...json_chars);
         }
 
         index_map = make_index_map(source, chars_to_skip);

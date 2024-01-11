@@ -19,6 +19,16 @@
             <div class="top-item">
                 <form>
                     <textarea id="source-text"></textarea>
+
+                    <input type="checkbox" id="exclude-spaces" />
+                    <label for="exclude-spaces">Exclude spaces</label>
+
+                    <input type="checkbox" id="exclude-newlines" />
+                    <label for="exclude-newlines">Exclude New Lines</label>
+
+                    <input type="checkbox" id="exclude-json" />
+                    <label for="exclude-json">Exclude JSON characters</label>
+
                     <input id="input-button" type="submit" value="Generate Dot Plot" />
                 </form>
                 <div id="display">
