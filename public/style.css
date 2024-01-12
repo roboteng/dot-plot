@@ -1,12 +1,18 @@
+* {
+    min-width: 0;
+}
+
 .top {
     display: flex;
     flex-direction: row;
     align-items: flex-start;
+    flex-wrap: wrap;
 }
 
 .top>.top-item {
     flex-grow: 1;
     width: 0;
+    min-width: 20rem;
 }
 
 #display {
@@ -23,4 +29,8 @@
 
 .output span {
     background-color: blue;
+}
+
+.options {
+    column-width: 12rem;
 }
